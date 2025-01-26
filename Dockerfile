@@ -1,19 +1,15 @@
-FROM ruby:3.2.2-slim
+FROM ruby:3.2.2
 
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
-WORKDIR /app
+RUN mkdir /credit-simulator-api
+WORKDIR /credit-simulator-api
 
-RUN gem install bundler
-
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile /credit-simulator-api/Gemfile
+COPY Gemfile.lock /credit-simulator-api/Gemfile.lock
 RUN bundle install
 
-COPY . .
-
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+COPY . /credit-simulator-api
 
 EXPOSE 3000
 

@@ -1,44 +1,64 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  db:
-    image: postgres:14
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: password
-      
-  redis:
-    image: redis:7
-    volumes:
-      - redis_data:/data
-      
-  web:
-    build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    volumes:
-      - .:/app
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-      - redis
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/credit_simulator_development
-      REDIS_URL: redis://redis:6379/0
-      
-  sidekiq:
-    build: .
-    command: bundle exec sidekiq
-    volumes:
-      - .:/app
-    depends_on:
-      - web
-      - redis
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/credit_simulator_development
-      REDIS_URL: redis://redis:6379/0
+    app:
+        build: .
+        ports:
+            - "3000:3000"
+        volumes:
+            - .:/app
+        depends_on:
+            - postgres
+            - redis
+            - rabbitmq
+        environment:
+            RAILS_ENV: development
+            DATABASE_URL: postgres://postgres:password@postgres:5432/credit_simulator_development
+            REDIS_URL: redis://redis:6379/1
+            RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+
+    postgres:
+        image: postgres:14
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: credit_simulator_development
+
+    redis:
+        image: redis:7
+        volumes:
+            - redis_data:/data
+        command: redis-server --appendonly yes
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+        volumes:
+            - rabbitmq_data:/var/lib/rabbitmq
+
+    sidekiq:
+        build: .
+        command: bundle exec sidekiq -C config/sidekiq.yml
+        depends_on:
+            - app
+            - redis
+            - postgres
+            - rabbitmq
+        volumes:
+            - .:/app
+        environment:
+            RAILS_ENV: development
+            REDIS_URL: redis://redis:6379/1
+            RABBITMQ_URL: amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASS:-guest}@rabbitmq:5672
 
 volumes:
-  postgres_data:
-  redis_data:
+    postgres_data:
+    redis_data:
+    rabbitmq_data:
