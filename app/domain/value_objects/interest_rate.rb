@@ -1,14 +1,42 @@
 module Domain
   module ValueObjects
     class InterestRate
-      attr_reader :value
+      include Comparable
 
-      def initialize(value)
-        @value = validate_rate(value)
+      MAXIMUM_RATE = 1.0
+      MINIMUM_RATE = 0.0001
+      RATE_TYPES = %w[fixed variable].freeze
+
+      attr_reader :value, :type
+
+      def initialize(value:, type:)
+        @value = BigDecimal(validate_rate(value), 4)
+        @type = validate_type(type)
       end
 
       def monthly_rate
-        value / 12.0
+        value / BigDecimal('100')
+      end
+
+      def annual_percentage
+        value * 100
+      end
+
+      def to_s
+        "#{format('%.2f', value)}% (#{type})"
+      end
+
+      def <=>(other)
+        return nil unless other.is_a?(InterestRate)
+        value <=> other.value
+      end
+
+      def fixed?
+        type == 'fixed'
+      end
+
+      def variable?
+        type == 'variable'
       end
 
       def to_decimal
@@ -18,10 +46,20 @@ module Domain
       private
 
       def validate_rate(rate)
-        raise ArgumentError, 'Taxa de juros deve ser maior que zero' unless rate.positive?
-        raise ArgumentError, 'Taxa de juros deve ser menor que 100%' if rate > 1.0
-
+        raise Errors::NegativeInterestRateError if rate.negative?
+        raise Errors::InvalidInterestRateError unless rate.is_a?(Numeric)
+        raise Errors::ExcessiveInterestRateError if rate >= MAXIMUM_RATE
+        raise Errors::InvalidInterestRateError if rate < MINIMUM_RATE
         rate
+      end
+
+      def validate_type(type)
+        type = type.to_s
+
+        unless RATE_TYPES.include?(type)
+          raise Errors::UnsupportedInterestRateTypeError.new(type)
+        end
+        type
       end
     end
   end

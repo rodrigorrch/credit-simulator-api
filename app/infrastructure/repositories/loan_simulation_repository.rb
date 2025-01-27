@@ -1,54 +1,29 @@
-# app/infrastructure/repositories/loan_simulation_repository.rb
+require_relative '../persistence/active_record/models/loan_simulation'
+
 module Infrastructure
   module Repositories
     class LoanSimulationRepository
       def create(simulation)
-        loan_simulation = LoanSimulation.create!(
-          amount: simulation.amount.to_decimal,
-          birth_date: simulation.birth_date,
-          installments: simulation.installments,
-          interest_rate: simulation.interest_rate.to_decimal,
-          currency: simulation.amount.currency,
-          monthly_payment: simulation.monthly_payment.to_decimal,
-          total_amount: simulation.total_amount.to_decimal
+        record = Infrastructure::Persistence::ActiveRecord::LoanSimulation.create!(
+          to_record_attributes(simulation)
         )
-        map_to_entity(loan_simulation)
-      end
 
-      def find(id)
-        loan_simulation = LoanSimulation.find_by(id: id)
-        return nil unless loan_simulation
-
-        map_to_entity(loan_simulation)
-      end
-
-      def create_bulk(simulations)
-        loan_simulations = simulations.map do |simulation|
-          {
-            amount: simulation.amount.to_decimal,
-            birth_date: simulation.birth_date,
-            installments: simulation.installments,
-            interest_rate: simulation.interest_rate.to_decimal,
-            currency: simulation.amount.currency,
-            monthly_payment: simulation.monthly_payment.to_decimal,
-            total_amount: simulation.total_amount.to_decimal,
-            created_at: Time.current,
-            updated_at: Time.current
-          }
-        end
-
-        LoanSimulation.insert_all(loan_simulations)
+        simulation.tap { |s| s.instance_variable_set(:@id, record.id) }
       end
 
       private
 
-      def map_to_entity(record)
-        Domain::Entities::LoanSimulation.new(
-          amount: record.amount,
-          birth_date: record.birth_date,
-          installments: record.installments,
-          interest_rate: record.interest_rate
-        )
+      def to_record_attributes(simulation)
+        {
+          amount: simulation.amount.to_decimal,
+          birth_date: simulation.birth_date,
+          installments: simulation.installments,
+          interest_rate: simulation.interest_rate.value,
+          rate_type: simulation.interest_rate.type.to_s,
+          currency: simulation.currency,
+          monthly_payment: simulation.monthly_payment.to_decimal,
+          total_amount: simulation.total_amount.to_decimal
+        }
       end
     end
   end

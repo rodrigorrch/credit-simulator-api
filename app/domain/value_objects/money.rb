@@ -1,6 +1,8 @@
 module Domain
   module ValueObjects
     class Money
+      include Comparable
+
       attr_reader :amount, :currency
 
       def initialize(amount, currency = 'BRL')
@@ -26,6 +28,11 @@ module Domain
         amount
       end
 
+      def <=>(other)
+        check_currency_compatibility(other)
+        amount <=> other.amount
+      end
+
       private
 
       def validate_amount(value)
@@ -37,6 +44,12 @@ module Domain
 
       def validate_same_currency(other)
         raise ArgumentError, 'Moedas diferentes não podem ser operadas' unless currency == other.currency
+      end
+
+      def check_currency_compatibility(other)
+        unless other.is_a?(Money) && other.currency == currency
+          raise ArgumentError, "Currency mismatch: #{currency} vs #{other.try(:currency)}"
+        end
       end
     end
   end

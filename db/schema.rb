@@ -10,8 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 0) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_26_174317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "loan_simulations", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.date "birth_date", null: false
+    t.integer "installments", null: false
+    t.decimal "interest_rate", precision: 5, scale: 4, null: false
+    t.string "rate_type", default: "fixed", null: false
+    t.string "currency", default: "BRL", null: false
+    t.decimal "monthly_payment", precision: 10, scale: 2
+    t.decimal "total_amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 end
