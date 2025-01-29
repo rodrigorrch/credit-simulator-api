@@ -6,7 +6,7 @@ module Domain
 
         conversion_rate = get_conversion_rate(money.currency, target_currency)
         new_amount = money.amount * conversion_rate
-        
+
         ValueObjects::Money.new(
           amount: new_amount,
           currency: target_currency
@@ -29,4 +29,4 @@ module Domain
       end
     end
   end
-end 
+end

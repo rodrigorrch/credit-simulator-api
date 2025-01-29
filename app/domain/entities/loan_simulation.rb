@@ -19,7 +19,7 @@ module Domain
 
       def build_interest_rate(rate, spread)
         return rate if rate.is_a?(ValueObjects::InterestRate)
-    
+
         if spread.present?
           Domain::ValueObjects::InterestRate::Variable.new(
             base_rate: rate,
@@ -40,8 +40,6 @@ module Domain
       def calc_total_amount
         monthly_payment * installments
       end
-
-      private
 
       def calculate_pmt
         r = interest_rate.monthly_rate

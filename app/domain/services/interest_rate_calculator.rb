@@ -3,7 +3,7 @@ module Domain
     class InterestRateCalculator
       def calculate_for_age(birth_date)
         age = calculate_age(birth_date)
-        
+
         case age
         when 0..25
           0.05
@@ -27,4 +27,4 @@ module Domain
       end
     end
   end
-end 
+end
