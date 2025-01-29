@@ -9,4 +9,4 @@ module Domain
       end
     end
   end
-end 
+end

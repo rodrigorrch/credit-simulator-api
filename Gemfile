@@ -30,6 +30,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 gem 'sidekiq'
 gem 'thruster', require: false
+gem 'zeitwerk'
 
 group :development, :test do
   gem 'brakeman', require: false
@@ -37,15 +38,15 @@ group :development, :test do
   gem 'debug', platforms: [:mri, :windows], require: 'debug/prelude'
   gem 'factory_bot_rails', '~> 6.4'
   gem 'faker', '~> 3.5'
-  gem 'pry-rails'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rspec-rails', '~> 7.1'
+  gem 'rswag-specs'
   gem 'rubocop', '~> 1.71'
   gem 'rubocop-rails', '~> 2.29'
   gem 'rubocop-rails-omakase', require: false
   gem 'rubocop-rspec', '~> 3.4'
-  gem 'rswag-specs'
 end
 
 group :development do

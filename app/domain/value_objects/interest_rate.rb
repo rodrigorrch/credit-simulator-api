@@ -28,6 +28,7 @@ module Domain
 
       def <=>(other)
         return nil unless other.is_a?(InterestRate)
+
         value <=> other.value
       end
 
@@ -50,15 +51,15 @@ module Domain
         raise Errors::InvalidInterestRateError unless rate.is_a?(Numeric)
         raise Errors::ExcessiveInterestRateError if rate >= MAXIMUM_RATE
         raise Errors::InvalidInterestRateError if rate < MINIMUM_RATE
+
         rate
       end
 
       def validate_type(type)
         type = type.to_s
 
-        unless RATE_TYPES.include?(type)
-          raise Errors::UnsupportedInterestRateTypeError.new(type)
-        end
+        raise Errors::UnsupportedInterestRateTypeError.new(type) unless RATE_TYPES.include?(type)
+
         type
       end
     end

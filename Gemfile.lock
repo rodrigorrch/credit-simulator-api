@@ -460,6 +460,7 @@ DEPENDENCIES
   spring
   thruster
   tzinfo-data
+  zeitwerk
 
 BUNDLED WITH
    2.5.22

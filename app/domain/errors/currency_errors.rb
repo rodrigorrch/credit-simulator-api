@@ -14,7 +14,7 @@ module Domain
 
     class CurrencyMismatchError < CurrencyError
       def initialize
-        super("Operação não permitida entre moedas diferentes")
+        super('Operação não permitida entre moedas diferentes')
       end
     end
 
@@ -24,4 +24,4 @@ module Domain
       end
     end
   end
-end 
+end

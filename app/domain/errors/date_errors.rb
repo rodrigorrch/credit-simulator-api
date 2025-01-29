@@ -8,13 +8,13 @@ module Domain
 
     class InvalidBirthDateError < DateError
       def initialize
-        super("Data de nascimento inválida")
+        super('Data de nascimento inválida')
       end
     end
 
     class FutureBirthDateError < DateError
       def initialize
-        super("Data de nascimento não pode ser no futuro")
+        super('Data de nascimento não pode ser no futuro')
       end
     end
 
@@ -24,4 +24,4 @@ module Domain
       end
     end
   end
-end 
+end

@@ -8,13 +8,13 @@ module Domain
 
     class InvalidLoanAmountError < LoanError
       def initialize
-        super("Valor do empréstimo inválido")
+        super('Valor do empréstimo inválido')
       end
     end
 
     class InvalidPaymentTermError < LoanError
       def initialize
-        super("Prazo de pagamento inválido")
+        super('Prazo de pagamento inválido')
       end
     end
 
@@ -30,4 +30,4 @@ module Domain
       end
     end
   end
-end 
+end

@@ -2,7 +2,8 @@ require 'spec_helper'
 require_relative '../../../app/domain/value_objects/money'
 
 RSpec.describe Domain::ValueObjects::Money do
-  let(:money) { described_class.new(100, 'BRL') }
+  subject(:money) { described_class.new(100, 'BRL') }
+
   let(:other_money) { described_class.new(50, 'BRL') }
   let(:different_currency_money) { described_class.new(50, 'USD') }
 

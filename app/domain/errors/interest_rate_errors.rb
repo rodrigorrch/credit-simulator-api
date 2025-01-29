@@ -7,20 +7,20 @@ module Domain
     end
 
     class InvalidInterestRateError < InterestRateError
-      def initialize(message = "Taxa de juros inválida")
-        super(message)
+      def initialize(message = 'Taxa de juros inválida')
+        super
       end
     end
 
     class NegativeInterestRateError < InterestRateError
       def initialize
-        super("Taxa de juros não pode ser negativa")
+        super('Taxa de juros não pode ser negativa')
       end
     end
 
     class ExcessiveInterestRateError < InterestRateError
       def initialize
-        super("Taxa de juros excede o limite máximo permitido")
+        super('Taxa de juros excede o limite máximo permitido')
       end
     end
 
@@ -30,4 +30,4 @@ module Domain
       end
     end
   end
-end 
+end

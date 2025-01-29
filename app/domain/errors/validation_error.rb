@@ -5,8 +5,8 @@ module Domain
 
       def initialize(message = nil, field = nil)
         @field = field
-        super(message, "validation_error")
+        super(message, 'validation_error')
       end
     end
   end
-end 
+end

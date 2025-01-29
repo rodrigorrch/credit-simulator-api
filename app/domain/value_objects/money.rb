@@ -47,9 +47,9 @@ module Domain
       end
 
       def check_currency_compatibility(other)
-        unless other.is_a?(Money) && other.currency == currency
-          raise ArgumentError, "Currency mismatch: #{currency} vs #{other.try(:currency)}"
-        end
+        return if other.is_a?(Money) && other.currency == currency
+
+        raise ArgumentError, "Currency mismatch: #{currency} vs #{other.try(:currency)}"
       end
     end
   end

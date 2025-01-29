@@ -14,7 +14,8 @@ module Interfaces
           private
 
           def loan_simulation_params
-            params.require(:loan_simulation).permit(:amount, :birth_date, :currency, :installments, :notification_email, :spread)
+            params.require(:loan_simulation).permit(:amount, :birth_date, :currency, :installments,
+                                                    :notification_email, :spread)
           end
 
           def create_loan_simulation
