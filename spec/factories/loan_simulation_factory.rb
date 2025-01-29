@@ -1,21 +1,8 @@
 FactoryBot.define do
-  factory :loan_simulation, class: 'Domain::Entities::LoanSimulation' do
-    amount { 1000.0 }
-    birth_date { Date.today }
-    installments { 12 }
-    interest_rate { 5.0 }
-    currency { 'BRL' }
-
-    trait :long_term do
-      installments { 60 }
-    end
-
-    trait :low_amount do
-      amount { 500.0 }
-    end
-
-    trait :high_interest do
-      interest_rate { 15.0 }
-    end
+  factory :loan_simulation do
+    amount { Faker::Number.decimal(l_digits: 2) }
+    interest_rate { Faker::Number.decimal(l_digits: 2) }
+    term { Faker::Number.between(from: 1, to: 30) }
+    start_date { Faker::Date.forward(days: 23) }
   end
 end
