@@ -378,6 +378,8 @@ GEM
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     set (1.1.1)
+    shoulda-matchers (6.4.0)
+      activesupport (>= 5.2.0)
     sidekiq (7.3.8)
       base64
       connection_pool (>= 2.3.0)
@@ -456,6 +458,7 @@ DEPENDENCIES
   rubocop-rails (~> 2.29)
   rubocop-rails-omakase
   rubocop-rspec (~> 3.4)
+  shoulda-matchers (~> 6.4)
   sidekiq
   spring
   thruster

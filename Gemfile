@@ -52,3 +52,5 @@ end
 group :development do
   gem 'spring', require: false
 end
+
+gem "shoulda-matchers", "~> 6.4", :group => :test
