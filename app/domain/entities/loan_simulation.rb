@@ -6,7 +6,7 @@ module Domain
 
       def initialize(attributes = {})
         @id = attributes[:id]
-        @amount = ValueObjects::Money.new(attributes[:amount])
+        @amount = Domain::ValueObjects::Money.new(attributes[:amount])
         @birth_date = attributes[:birth_date]
         @installments = attributes[:installments]
         @interest_rate = build_interest_rate(attributes[:interest_rate], attributes[:spread])

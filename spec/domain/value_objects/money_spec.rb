@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../../../app/domain/value_objects/money'
 
 RSpec.describe Domain::ValueObjects::Money do
   subject(:money) { described_class.new(100, 'BRL') }

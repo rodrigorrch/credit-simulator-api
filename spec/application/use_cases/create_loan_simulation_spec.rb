@@ -22,7 +22,6 @@ RSpec.describe Application::UseCases::CreateLoanSimulation, type: :use_case do
 
     before do
       allow(interest_rate_calculator).to receive(:calculate_for_age).with(params[:birth_date]).and_return(0.05)
-      allow(Domain::Entities::LoanSimulation).to receive(:new).and_return(instance_double(Domain::Entities::LoanSimulation))
       allow(loan_simulation_repository).to receive(:create)
     end
 
