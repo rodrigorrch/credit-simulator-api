@@ -17,7 +17,7 @@ module Application
                                                             type: params[:type]
                                                           })
 
-        @loan_simulation_repository.create(simulation)
+        format(@loan_simulation_repository.create(simulation))
       end
 
       private
@@ -26,6 +26,25 @@ module Application
         raise Domain::Errors::ValidationError, 'Valor é obrigatório' unless params[:amount]
         raise Domain::Errors::ValidationError, 'Data de nascimento é obrigatória' unless params[:birth_date]
         raise Domain::Errors::ValidationError, 'Número de parcelas é obrigatório' unless params[:installments]
+      end
+
+      def format(simulation)
+        return {} unless simulation
+
+        {
+          data: {
+            id: simulation.id,
+            amount: simulation.amount.to_decimal,
+            birth_date: simulation.birth_date,
+            installments: simulation.installments
+          },
+          simulation: {
+            interest_rate: simulation.interest_rate.to_decimal,
+            currency: simulation.currency,
+            monthly_payment: simulation.monthly_payment.to_decimal.round(2),
+            total_amount: simulation.total_amount.to_decimal.round(2)
+          }
+        }
       end
     end
   end

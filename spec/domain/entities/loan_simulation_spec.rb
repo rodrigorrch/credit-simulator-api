@@ -4,7 +4,8 @@ RSpec.describe Domain::Entities::LoanSimulation, type: :model do
   subject(:entitie) { described_class.new(attributes) }
 
   let(:attributes) do
-    build('loan_simulation')
+    build('loan_simulation', amount: 1000, birth_date: '1990-01-01', installments: 12,
+                             interest_rate: 0.05, currency: 'BRL')
   end
 
   describe 'attributes' do

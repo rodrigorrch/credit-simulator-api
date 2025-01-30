@@ -56,8 +56,8 @@ module CreditSimulatorApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    Rails.autoloaders.main.ignore(
-      "app/interfaces/api/v1/controllers"
-    )
+    # Rails.autoloaders.main.ignore(
+    #   "app/interfaces/api/v1/controllers"
+    # )
   end
 end

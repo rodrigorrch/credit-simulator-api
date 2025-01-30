@@ -46,7 +46,9 @@ module Domain
         pv = amount.to_decimal
         n = installments
 
-        (pv * r * ((1 + r)**n)) / (((1 + r)**n) - 1)
+        numerador = pv * r
+        denominador = 1 - ((1 + r)**-n)
+        numerador / denominador
       end
     end
   end
