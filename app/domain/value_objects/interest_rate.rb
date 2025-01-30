@@ -58,7 +58,7 @@ module Domain
       def validate_type(type)
         type = type.to_s
 
-        raise Errors::UnsupportedInterestRateTypeError.new(type) unless RATE_TYPES.include?(type)
+        raise Errors::UnsupportedInterestRateTypeError type unless RATE_TYPES.include?(type)
 
         type
       end
