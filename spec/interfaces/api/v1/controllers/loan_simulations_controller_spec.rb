@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Interfaces::Api::V1::Controllers::LoanSimulationsController, type: :controller do
+RSpec.describe Api::V1::Controllers::LoanSimulationsController, type: :controller do
   describe 'POST #create' do
     let(:valid_params) do
       {
