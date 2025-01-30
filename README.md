@@ -141,3 +141,11 @@ Para rodar a suíte de testes, utilize o seguinte comando:
 ```sh
 docker-compose exec app rspec
 ```
+
+Para rodar o swagger, utilize o seguinte comando:
+
+```sh
+docker-compose exec app rails rswag:specs:swaggerize
+```
+
+E acesse http://localhost:3000/api-docs/index.html

@@ -5,13 +5,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :loan_simulations, 
-        only: [:create], 
-        controller: 'controllers/loan_simulations' do
-          collection do
-            post :bulk
-          end
+      resources :loan_simulations, only: [:create] do
+        collection do
+          post :bulk
         end
+      end
     end
   end
 end
