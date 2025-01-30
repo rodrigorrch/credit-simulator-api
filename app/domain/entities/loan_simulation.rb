@@ -2,7 +2,7 @@ module Domain
   module Entities
     class LoanSimulation
       attr_reader :id, :amount, :birth_date, :installments, :interest_rate,
-                  :currency, :monthly_payment, :total_amount
+                  :currency, :monthly_payment, :total_amount, :notification_email, :spread
 
       def initialize(attributes = {})
         @id = attributes[:id]
@@ -11,6 +11,8 @@ module Domain
         @installments = attributes[:installments]
         @interest_rate = build_interest_rate(attributes[:interest_rate], attributes[:spread])
         @currency = attributes[:currency] || 'BRL'
+        @notification_email = attributes[:notification_email]
+        @spread = attributes[:spread]
         @monthly_payment = calc_monthly_payment
         @total_amount = calc_total_amount
       end

@@ -17,7 +17,7 @@ module Application
                                                             type: params[:type]
                                                           })
 
-        format(@loan_simulation_repository.create(simulation))
+        process(@loan_simulation_repository.create(simulation))
       end
 
       private
@@ -28,9 +28,18 @@ module Application
         raise Domain::Errors::ValidationError, 'Número de parcelas é obrigatório' unless params[:installments]
       end
 
-      def format(simulation)
+      def send_email(simulation_id)
+        EmailWorker.perform_async(simulation_id)
+      end
+
+      def process(simulation)
         return {} unless simulation
 
+        send_email(simulation.id)
+        format(simulation)
+      end
+
+      def format(simulation)
         {
           data: {
             id: simulation.id,
